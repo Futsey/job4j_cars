@@ -7,9 +7,6 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 import java.util.Optional;
 import cars.model.User;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 @AllArgsConstructor
 public class UserRepository {
