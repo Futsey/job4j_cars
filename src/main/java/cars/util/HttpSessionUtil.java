@@ -14,7 +14,7 @@ public final class HttpSessionUtil {
         User user = (User) session.getAttribute("visitor");
         if (user == null) {
             user = new User();
-            user.setName("Гость");
+            user.setLogin("Гость");
         }
         model.addAttribute("user", user);
     }
