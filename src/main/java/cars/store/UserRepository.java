@@ -12,6 +12,11 @@ import cars.model.User;
 public class UserRepository {
 
     private final SessionFactory sf;
+    private static final String UPDATE = "UPDATE User SET login = :fLogin, password = :fNPassword WHERE id = :fId";
+    private static final String DELETE = "DELETE User WHERE id = :fId";
+    private static final String ORDER_BY_ID = "FROM User ORDER BY id";
+    private static final String FIND_BY_LOGIN_LIKE = "FROM User WHERE login LIKE :key";
+    private static final String FIND_BY_LOGIN = "FROM User WHERE login= :login";
 
     /**
      * Сохранить в базе.
@@ -40,8 +45,7 @@ public class UserRepository {
         Session session = sf.openSession();
         try {
             session.beginTransaction();
-            session.createQuery(
-                            "UPDATE User SET login = :fLogin, password = :fNPassword WHERE id = :fId")
+            session.createQuery(UPDATE)
                     .setParameter("fLogin", user.getLogin())
                     .setParameter("fLogin", user.getPassword())
                     .setParameter("fId", user.getId())
@@ -62,8 +66,7 @@ public class UserRepository {
         Session session = sf.openSession();
         try {
             session.beginTransaction();
-            session.createQuery(
-                            "DELETE User WHERE id = :fId")
+            session.createQuery(DELETE)
                     .setParameter("fId", userId)
                     .executeUpdate();
             session.getTransaction().commit();
@@ -80,8 +83,7 @@ public class UserRepository {
      */
     public List<User> findAllOrderById() {
         Session session = sf.openSession();
-        String sql = "FROM User ORDER BY id";
-        List<User> sortedByIDList = session.createQuery(sql, User.class).list();
+        List<User> sortedByIDList = session.createQuery(ORDER_BY_ID, User.class).list();
         session.close();
         return sortedByIDList;
     }
@@ -104,8 +106,7 @@ public class UserRepository {
      */
     public List<User> findByLikeLogin(String key) {
         Session session = sf.openSession();
-        String sql = "FROM User WHERE login LIKE :key";
-        List<User> rsl = session.createQuery(sql, User.class)
+        List<User> rsl = session.createQuery(FIND_BY_LOGIN_LIKE, User.class)
                 .setParameter("key", "%" + key + "%")
                 .list();
         session.close();
@@ -119,8 +120,7 @@ public class UserRepository {
      */
     public Optional<User> findByLogin(String login) {
         Session session = sf.openSession();
-        String sql = "FROM User WHERE login= :login";
-        Optional<User> rsl = session.createQuery(sql, User.class)
+        Optional<User> rsl = session.createQuery(FIND_BY_LOGIN, User.class)
                 .setParameter("login", login)
                 .uniqueResultOptional();
         session.close();
