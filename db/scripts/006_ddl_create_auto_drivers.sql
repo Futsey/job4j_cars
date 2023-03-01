@@ -1,0 +1,5 @@
+CREATE TABLE
+IF NOT EXISTS auto_drivers
+(
+    id BIGSERIAL PRIMARY KEY
+)

@@ -1,9 +1,11 @@
 package cars.model;
 
+
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -11,14 +13,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "auto_price_history")
-public class PriceHistory {
+@Table(name = "auto_drivers")
+public class Driver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
     private int id;
-    private long before;
-    private long after;
-    private LocalDateTime created = LocalDateTime.now();
+
+    @ManyToMany
+    private Set<Car> carSet = new HashSet<>();
 }

@@ -1,12 +1,16 @@
 package cars.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "auto_user")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Table(name = "auto_users")
 public class User {
 
     @Id

@@ -1,0 +1,4 @@
+ALTER TABLE auto_drivers
+ADD COLUMN
+IF NOT EXISTS
+    car_id BIGINT NOT NULL REFERENCES auto_cars(id);

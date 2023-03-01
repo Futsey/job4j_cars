@@ -1,7 +1,6 @@
 package cars.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +10,10 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "auto_post")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Table(name = "auto_posts")
 public class Post {
 
     @Id

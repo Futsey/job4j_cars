@@ -3,7 +3,6 @@ package cars.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -11,14 +10,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "auto_price_history")
-public class PriceHistory {
+@Table(name = "auto_engines")
+public class Engine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
     private int id;
-    private long before;
-    private long after;
-    private LocalDateTime created = LocalDateTime.now();
+
+    @OneToOne()
+    @JoinColumn(name = "car_id")
+    private Engine car;
 }

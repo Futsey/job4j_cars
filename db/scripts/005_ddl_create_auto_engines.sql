@@ -1,0 +1,5 @@
+CREATE TABLE
+IF NOT EXISTS auto_engines
+(
+    id BIGSERIAL PRIMARY KEY
+)

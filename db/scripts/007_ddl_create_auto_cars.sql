@@ -1,0 +1,6 @@
+CREATE TABLE
+IF NOT EXISTS auto_cars
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(128)
+)
