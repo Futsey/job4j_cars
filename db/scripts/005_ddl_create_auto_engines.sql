@@ -1,5 +1,6 @@
 CREATE TABLE
 IF NOT EXISTS auto_engines
 (
-    id BIGSERIAL PRIMARY KEY
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(128)
 )

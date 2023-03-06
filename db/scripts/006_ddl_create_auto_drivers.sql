@@ -1,5 +1,7 @@
 CREATE TABLE
 IF NOT EXISTS auto_drivers
 (
-    id BIGSERIAL PRIMARY KEY
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(128),
+    user_id BIGINT NOT NULL UNIQUE REFERENCES auto_users(id)
 )

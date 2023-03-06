@@ -14,10 +14,8 @@
     <include file="scripts/006_ddl_create_auto_drivers.sql" relativeToChangelogFile="true"/>
     <include file="scripts/007_ddl_create_auto_cars.sql" relativeToChangelogFile="true"/>
     <include file="scripts/008_ddl_create_auto_cars_drivers_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/009_ddl_alter_auto_drivers.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/010_ddl_alter_auto_cars.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/011_ddl_alter_auto_engines.sql" relativeToChangelogFile="true"/>
-
-
+    <include file="scripts/009_ddl_alter_auto_cars_add_engine.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/010_ddl_alter_auto_posts_add_car_id.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/011_ddl_create_auto_history_owners.sql" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

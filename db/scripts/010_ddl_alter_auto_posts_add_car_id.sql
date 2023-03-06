@@ -1,4 +1,4 @@
-ALTER TABLE auto_engines
+ALTER TABLE auto_posts
 ADD COLUMN
 IF NOT EXISTS
     car_id BIGINT NOT NULL REFERENCES auto_cars(id);

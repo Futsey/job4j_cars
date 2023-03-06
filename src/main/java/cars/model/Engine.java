@@ -17,7 +17,5 @@ public class Engine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToOne()
-    @JoinColumn(name = "car_id")
-    private Engine car;
+    private String name;
 }

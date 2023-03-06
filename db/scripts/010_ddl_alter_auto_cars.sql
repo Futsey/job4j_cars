@@ -1,8 +1,0 @@
-ALTER TABLE auto_cars
-ADD COLUMN
-IF NOT EXISTS
-    engine_id BIGINT NOT NULL UNIQUE REFERENCES auto_engines(id),
-ADD COLUMN
-IF NOT EXISTS
-    driver_id BIGINT NOT NULL REFERENCES auto_drivers(id)
-;

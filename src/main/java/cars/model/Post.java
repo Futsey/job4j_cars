@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(of = {"id", "text", "created"})
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,9 +34,13 @@ public class Post {
 
     @ManyToMany
     @JoinTable(
-            name = "participates",
+            name = "auto_participates",
             joinColumns = { @JoinColumn(name = "post_id") },
             inverseJoinColumns = { @JoinColumn(name = "user_id") }
     )
     private List<User> participates = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_id")
+    private Car car;
 }
