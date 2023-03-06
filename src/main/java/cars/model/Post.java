@@ -18,10 +18,9 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
     private int id;
+
     private String text;
-    @EqualsAndHashCode.Include
     private LocalDateTime created = LocalDateTime.now();
 
     @ManyToOne
@@ -40,7 +39,7 @@ public class Post {
     )
     private List<User> participates = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "car_id")
     private Car car;
 }
