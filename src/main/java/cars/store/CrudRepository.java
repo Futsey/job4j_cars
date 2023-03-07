@@ -3,20 +3,23 @@ package cars.store;
 import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-@AllArgsConstructor
 @Repository
+@AllArgsConstructor
 public class CrudRepository {
 
     private final SessionFactory sf;
+    private static final Logger LOG = LoggerFactory.getLogger(CrudRepository.class.getName());
 
     public void run(Consumer<Session> command) {
         tx(session -> {
@@ -45,7 +48,7 @@ public class CrudRepository {
             for (Map.Entry<String, Object> arg : args.entrySet()) {
                 sq.setParameter(arg.getKey(), arg.getValue());
             }
-            return Optional.ofNullable(sq.getSingleResult());
+            return sq.uniqueResultOptional();
         };
         return tx(command);
     }
@@ -70,18 +73,20 @@ public class CrudRepository {
     }
 
     public <T> T tx(Function<Session, T> command) {
-        var session = sf.openSession();
-        try (session) {
-            var tx = session.beginTransaction();
+        Session session = sf.openSession();
+        Transaction tx = session.beginTransaction();
+        try {
             T rsl = command.apply(session);
             tx.commit();
             return rsl;
         } catch (Exception e) {
-            var tx = session.getTransaction();
-            if (tx.isActive()) {
+            if (tx != null) {
                 tx.rollback();
             }
+            LOG.error("Exception: CrudRepository{ tx() }", e);
             throw e;
+        } finally {
+            session.close();
         }
     }
 }
