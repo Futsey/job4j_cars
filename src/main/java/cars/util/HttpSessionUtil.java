@@ -11,10 +11,10 @@ public final class HttpSessionUtil {
     }
 
     public static void setGuest(Model model, HttpSession session) {
-        User user = (User) session.getAttribute("visitor");
+        User user = (User) session.getAttribute("user");
         if (user == null) {
             user = new User();
-            user.setLogin("Гость");
+            user.setLogin("Guest");
         }
         model.addAttribute("user", user);
     }

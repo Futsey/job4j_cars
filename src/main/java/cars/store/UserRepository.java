@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import cars.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -13,81 +15,96 @@ import org.springframework.stereotype.Repository;
 public class UserRepository {
 
     private final CrudRepository crudRepository;
-    private static final String SELECT_ALL_BY_ID = "FROM User ORDER by id ASC";
-    private static final String SELECT_BY_ID = "FROM User WHERE id = :fId";
-    private static final String SELECT_WHERE_LOGIN_LIKE = "FROM User WHERE login like = :fKey";
-    private static final String SELECT_WHERE_LOGIN = "FROM User WHERE login = :fLogin";
-    private static final String DELETE = "DELETE User WHERE id = :fId";
+    private static final Logger LOG = LoggerFactory.getLogger(UserRepository.class.getName());
+    private static final String SELECT_ALL_ASC = """
+    FROM User u
+    ORDER by u.id
+    ASC
+    """;
+    private static final String SELECT_BY_ID = """
+    FROM User u
+    WHERE u.id = :fId
+    """;
+    private static final String SELECT_WHERE_LOGIN_LIKE = """
+    FROM User u
+    WHERE u.login
+    LIKE = :fKey
+    """;
+    private static final String SELECT_WHERE_LOGIN_AND_PASSWORD = """
+    FROM User u
+    WHERE u.login = :flogin
+    AND u.password = :fpassword
+    """;
+    private static final String DELETE = """
+    DELETE User u
+    WHERE u.id = :fId
+    """;
+    private static final String UPDATE = """
+    UPDATE User u
+    SET u.login = :flogin, u.password = :fpassword
+    WHERE id = :fId""";
 
-    /**
-     * Сохранить в базе.
-     * @param user пользователь.
-     * @return пользователь с id.
-     */
-    public User create(User user) {
-        crudRepository.run(session -> session.persist(user));
-        return user;
+    public Optional<User> add(User user) {
+        Optional<User> nonNullUser = Optional.empty();
+        try {
+            crudRepository.run(session -> session.save(user));
+            nonNullUser = Optional.of(user);
+        } catch (Exception e) {
+            LOG.error("Exception: UserRepository{ add() }", e);
+        }
+        return nonNullUser;
     }
 
-    /**
-     * Обновить в базе пользователя.
-     * @param user пользователь.
-     */
-    public void update(User user) {
-        crudRepository.run(session -> session.merge(user));
+    public List<User> findAllASC() {
+        return crudRepository.query(SELECT_ALL_ASC, User.class);
     }
 
-    /**
-     * Удалить пользователя по id.
-     * @param userId ID
-     */
-    public void delete(int userId) {
-        crudRepository.run(
-                DELETE,
-                Map.of("fId", userId)
+    public boolean update(int id) {
+        boolean rsl = false;
+        try {
+            crudRepository.run(UPDATE, Map.of("fId", id));
+            rsl = true;
+        } catch (Exception e) {
+            LOG.error("Exception: UserRepository{ update() }", e);
+        }
+        return rsl;
+    }
+
+    public boolean delete(int id) {
+        boolean rsl = false;
+        try {
+            crudRepository.run(DELETE, Map.of("fId", id));
+            rsl = true;
+        } catch (Exception e) {
+            LOG.error("Exception: UserRepository{ update() }", e);
+        }
+        return rsl;
+    }
+
+    public Optional<User> findByLogin(String key) {
+        return crudRepository.optional(
+                SELECT_WHERE_LOGIN_LIKE, User.class,
+                Map.of("fkey", key)
         );
     }
 
-    /**
-     * Список пользователь отсортированных по id.
-     * @return список пользователей.
-     */
-    public List<User> findAllOrderById() {
-        return crudRepository.query(SELECT_ALL_BY_ID, User.class);
+    public Optional<User> findByLoginAndPassword(String login, String password) {
+        Optional<User> userDB = Optional.empty();
+        try {
+            userDB = crudRepository.optional(
+                    SELECT_WHERE_LOGIN_AND_PASSWORD,
+                    User.class,
+                    Map.of("flogin", login, "fpassword", password));
+        } catch (Exception e) {
+            LOG.error("Exception: UserRepository{ findByLoginAnaPassword() }", e);
+        }
+        return userDB;
     }
 
-    /**
-     * Найти пользователя по ID
-     * @return пользователь.
-     */
-    public Optional<User> findById(int userId) {
+    public Optional<User> findById(int id) {
         return crudRepository.optional(
                 SELECT_BY_ID, User.class,
-                Map.of("fId", userId)
-        );
-    }
-
-    /**
-     * Список пользователей по login LIKE %key%
-     * @param key key
-     * @return список пользователей.
-     */
-    public List<User> findByLikeLogin(String key) {
-        return crudRepository.query(
-                SELECT_WHERE_LOGIN_LIKE, User.class,
-                Map.of("fKey", key)
-        );
-    }
-
-    /**
-     * Найти пользователя по login.
-     * @param login login.
-     * @return Optional or user.
-     */
-    public Optional<User> findByLogin(String login) {
-        return crudRepository.optional(
-                SELECT_WHERE_LOGIN, User.class,
-                Map.of("fLogin", login)
+                Map.of("fId", id)
         );
     }
 }

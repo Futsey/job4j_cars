@@ -3,6 +3,7 @@ package cars.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -18,4 +19,5 @@ public class User {
     private int id;
     private String login;
     private String password;
+    private LocalDateTime created;
 }

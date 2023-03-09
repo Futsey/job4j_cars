@@ -4,6 +4,7 @@ import cars.model.User;
 import cars.store.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,31 +17,32 @@ public class UserService {
         this.store = store;
     }
 
-    public User add(User user) {
-        return store.create(user);
+    public Optional<User> add(User user) {
+        user.setCreated(LocalDateTime.now());
+        return store.add(user);
     }
 
-    public void delete(int userId) {
-        store.delete(userId);
+    public boolean delete(int userId) {
+        return store.delete(userId);
     }
 
-    public void update(User user) {
-        store.update(user);
+    public boolean update(int userId) {
+        return store.update(userId);
     }
 
-    public List<User> findAllOrderById() {
-        return store.findAllOrderById();
+    public List<User> findAllOrderASCById() {
+        return store.findAllASC();
     }
 
     public Optional<User> findById(int id) {
         return store.findById(id);
     }
 
-    public List<User> findByLikeLogin(String key) {
-        return store.findByLikeLogin(key);
+    public Optional<User> findByLogin(String key) {
+        return store.findByLogin(key);
     }
 
-    public Optional<User> findByLogin(String name) {
-        return store.findByLogin(name);
+    public Optional<User> findByLoginAndPass(String login, String password) {
+        return store.findByLoginAndPassword(login, password);
     }
 }

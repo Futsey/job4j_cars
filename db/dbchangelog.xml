@@ -20,5 +20,7 @@
     <include file="scripts/009_ddl_alter_auto_cars_add_engine.sql" relativeToChangelogFile="true"/>
     <include file="scripts/010_ddl_alter_auto_posts_add_car_id.sql" relativeToChangelogFile="true"/>
     <include file="scripts/011_ddl_create_auto_history_owners.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/012_ddl_alter_auto_users_add_created.sql" relativeToChangelogFile="true"/>
+
 
 </databaseChangeLog>
