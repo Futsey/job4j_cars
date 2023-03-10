@@ -52,11 +52,22 @@
             <a class="dropdown-item" href="#">Show all ads</a>
           </div>
         </li>
-
       </ul>
+
       <form class="form-inline mt-2 mt-md-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <div class="d-flex align-items-center">
+          <button type="button" class="btn btn-link px-3 me-2">
+            <a class="btn btn-outline-success btn" th:if="${user.login == 'Гость'}" th:href="@{/users/loginPage}">
+              <span th:text="${user.login}"></span>
+            </a>
+            <a class="btn btn-outline-info btn" th:if="${user.login != 'Гость'}" th:href="@{/users/logout}">
+              <span th:text="${user.login}"></span>
+            </a>
+          </button>
+          <button type="button" class="btn btn-primary btn-rounded me-3" th:onclick="|window.location.href='/users/addUser'|">
+            Register
+          </button>
+        </div>
       </form>
 
     </div>
@@ -66,19 +77,6 @@
 <main role="main">
 
   <div style="margin-top: 50px; margin-bottom: 50px">
-
-    <div class="position-absolute end-50">
-      <a class="btn btn-outline-primary btn" role="button" th:href="@{/users/addUser}">Registration</a>
-    </div>
-
-    <div class="float-right">
-      <a class="btn btn-outline-success btn" th:if="${user.login == 'Гость'}" th:href="@{/users/loginPage}">
-        <span th:text="${user.login}"></span>
-      </a>
-      <a class="btn btn-outline-info btn" th:if="${user.login != 'Гость'}" th:href="@{/users/logout}">
-        <span th:text="${user.login}"></span>
-      </a>
-    </div>
 
     <h1 class="text-center" style="font-family: -apple-system; color: brown; padding: 20px; margin-bottom: 10px">Top CARS</h1>
 
