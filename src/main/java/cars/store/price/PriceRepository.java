@@ -1,7 +1,8 @@
-package cars.store;
+package cars.store.price;
 
 import cars.model.PriceHistory;
 import cars.model.User;
+import cars.store.CrudRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 

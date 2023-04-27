@@ -1,8 +1,7 @@
-package cars.service;
+package cars.service.driver;
 
-import cars.model.Car;
 import cars.model.Driver;
-import cars.store.DriverRepository;
+import cars.store.driver.DriverRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

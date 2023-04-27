@@ -1,5 +1,6 @@
-package cars.store;
+package cars.store.user;
 
+import cars.store.CrudRepository;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -39,10 +40,6 @@ public class UserRepository {
     DELETE User u
     WHERE u.id = :fId
     """;
-    private static final String UPDATE = """
-    UPDATE User u
-    SET u.login = :flogin, u.password = :fpassword
-    WHERE id = :fId""";
 
     public Optional<User> add(User user) {
         Optional<User> nonNullUser = Optional.empty();
@@ -59,15 +56,26 @@ public class UserRepository {
         return crudRepository.query(SELECT_ALL_ASC, User.class);
     }
 
-    public boolean update(int id) {
+    public boolean update(User user) {
         boolean rsl = false;
-        try {
-            crudRepository.run(UPDATE, Map.of("fId", id));
+        if (isUserPresent(user)) {
+            merge(user);
             rsl = true;
-        } catch (Exception e) {
-            LOG.error("Exception: UserRepository{ update() }", e);
         }
         return rsl;
+    }
+
+    public boolean isUserPresent(User user) {
+        return Optional.of(user).isPresent();
+    }
+
+    public User merge(User user) {
+        crudRepository.run(tmpTask -> tmpTask.merge(user));
+        return User.builder()
+                .login(user.getLogin())
+                .password(user.getPassword())
+                .fileId(user.getFileId())
+                .build();
     }
 
     public boolean delete(int id) {

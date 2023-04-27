@@ -52,19 +52,18 @@
                             <a class="dropdown-item" href="#">Show all ads</a>
                         </div>
                     </li>
-
                 </ul>
 
                 <form class="form-inline mt-2 mt-md-0">
                     <div class="d-flex align-items-center">
-                        <button type="button" class="btn btn-link px-3 me-2">
+                        <div type="button" class="btn btn-link px-3 me-2">
                             <a class="btn btn-outline-success btn" th:if="${user.login == 'Гость'}" th:href="@{/users/loginPage}">
-                                <span th:text="${user.login}"></span>
+                                <span th:text="${user.login}">Login</span>
                             </a>
                             <a class="btn btn-outline-info btn" th:if="${user.login != 'Гость'}" th:href="@{/users/logout}">
-                                <span th:text="${user.login}"></span>
+                                <span th:text="${user.login}">Login</span>
                             </a>
-                        </button>
+                        </div>
                         <button type="button" class="btn btn-primary btn-rounded me-3" th:onclick="|window.location.href='/users/addUser'|">
                             Register
                         </button>
@@ -90,6 +89,8 @@
                                 <input type="text" class="form-control" name="login" id="login" th:placeholder="*{login}">
                                 <label for="password">Your password</label>
                                 <input type="text" class="form-control" name="password" id="password" th:placeholder="*{password}">
+                                <label for="foto">Your photo</label>
+                                <input class="form-control form-control-sm w-100" type="file" id="foto" name="foto" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Register me!</button>
                         </form>

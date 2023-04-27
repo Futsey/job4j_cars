@@ -1,13 +1,16 @@
-package cars.controller;
+package cars.controller.user;
 
+import cars.dto.file.FileDto;
 import cars.model.User;
-import cars.service.UserService;
+import cars.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -20,17 +23,23 @@ public class UserController {
 
     private final UserService userService;
 
+    @GetMapping()
+    public String findAll(Model model) {
+        model.addAttribute("users", userService.findAllOrderASCById());
+        return "user/users";
+    }
+
     @GetMapping("/addUser")
     public String addUser(Model model, HttpSession session) {
         setGuest(model, session);
         model.addAttribute("user", new User(0, "Enter login", "Enter password",
-                LocalDateTime.now()));
+                LocalDateTime.now(), 0));
         return "users/addUser";
     }
 
     @PostMapping("/registration")
-    public String registration(Model model, @ModelAttribute User user) {
-        Optional<User> regUser = userService.add(user);
+    public String registration(Model model, @ModelAttribute User user, @RequestParam MultipartFile foto) throws IOException {
+        Optional<User> regUser = userService.add(user, new FileDto(foto.getOriginalFilename(), foto.getBytes()));
         if (regUser.isEmpty()) {
             return "redirect:/users/fail";
         }
@@ -49,19 +58,6 @@ public class UserController {
         setGuest(model, session);
         model.addAttribute("success", "Registration successful");
         return "/users/registrationSuccess";
-    }
-
-    @GetMapping("/formUpdateUser/{userId}")
-    public String formUpdateCandidate(Model model, @PathVariable("userId") int id, HttpSession session) {
-        model.addAttribute("candidates", userService.findById(id));
-        setGuest(model, session);
-        return "updateUser";
-    }
-
-    @PostMapping("/updateUser")
-    public String updateUser(@ModelAttribute User user) {
-        userService.update(user.getId());
-        return "redirect:/formUpdateUser/{userId}";
     }
 
     @GetMapping("/loginPage")

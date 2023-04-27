@@ -1,12 +1,11 @@
-package cars.service;
+package cars.service.car;
 
 import cars.model.Car;
-import cars.store.CarRepository;
+import cars.store.car.CarRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 

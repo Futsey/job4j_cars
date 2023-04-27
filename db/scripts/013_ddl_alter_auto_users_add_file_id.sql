@@ -1,0 +1,5 @@
+ALTER TABLE auto_users
+ADD COLUMN IF
+NOT EXISTS
+file_id VARCHAR
+;

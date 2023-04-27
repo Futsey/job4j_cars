@@ -1,7 +1,7 @@
-package cars.service;
+package cars.service.engine;
 
 import cars.model.Engine;
-import cars.store.EngineRepository;
+import cars.store.engine.EngineRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

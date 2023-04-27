@@ -20,4 +20,7 @@ public class User {
     private String login;
     private String password;
     private LocalDateTime created;
+
+    @Column(name = "file_id")
+    private int fileId;
 }
