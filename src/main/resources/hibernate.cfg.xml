@@ -20,5 +20,6 @@
         <mapping class="cars.model.Car" />
         <mapping class="cars.model.Driver" />
         <mapping class="cars.model.Engine" />
+        <mapping class="cars.model.File" />
     </session-factory>
 </hibernate-configuration>

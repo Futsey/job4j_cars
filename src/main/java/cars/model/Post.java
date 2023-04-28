@@ -23,7 +23,7 @@ public class Post {
     private String text;
     private LocalDateTime created = LocalDateTime.now();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "auto_user_id")
     private User user;
 
@@ -39,7 +39,7 @@ public class Post {
     )
     private List<User> participates = new ArrayList<>();
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id")
     private Car car;
 

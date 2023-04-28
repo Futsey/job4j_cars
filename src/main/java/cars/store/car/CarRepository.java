@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Repository
 public class CarRepository {
-
     private final CrudRepository crudRepository;
     private static final Logger LOG = LoggerFactory.getLogger(CarRepository.class.getName());
 
@@ -77,7 +76,7 @@ public class CarRepository {
             crudRepository.run(DELETE, Map.of("fId", id));
             rsl = true;
         } catch (Exception e) {
-            LOG.error("Exception: CarRepository{ delete() }", e);
+            LOG.error("Exception: PostRepository{ delete() }", e);
         }
         return rsl;
     }
