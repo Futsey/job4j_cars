@@ -62,7 +62,8 @@ public class PostRepository {
     }
 
     public List<Post> findByCarName(Car car) {
-        return crudRepository.query("From Post as p where p.car_id = :fId",
-                Post.class, Map.of("fcarId", car.getId()));
+        return crudRepository.query(SELECT_BY_CAR_NAME,
+                Post.class,
+                Map.of("fcarId", car.getId()));
     }
 }
