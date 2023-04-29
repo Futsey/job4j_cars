@@ -33,7 +33,7 @@ public class PostRepository {
 
     private static final String SELECT_WITH_FILE = """
             FROM Post p
-            WHERE p.fileId != NULL
+            WHERE p.fileId IS NOT NULL
             """;
 
     private static final String SELECT_BY_CAR_NAME = """
